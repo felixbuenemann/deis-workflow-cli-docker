@@ -1,0 +1,7 @@
+#!/bin/sh
+GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -oStrictHostKeyChecking=no}"
+if [[ ! -z "${DEIS_SSH_KEY:-${GIT_SSH_KEY:-$SSH_KEY}}" ]]; then
+  eval `ssh-agent -s` > /dev/null
+  echo "${DEIS_SSH_KEY:-${GIT_SSH_KEY:-$SSH_KEY}}" | ssh-add - 2> /dev/null
+fi
+exec /usr/bin/git "$@"
