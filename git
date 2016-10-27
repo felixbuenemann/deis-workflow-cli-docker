@@ -1,7 +1,12 @@
 #!/bin/sh
+export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no}"
 if [[ ! -z "${DEIS_SSH_KEY:-${GIT_SSH_KEY:-$SSH_KEY}}" ]]; then
   eval `ssh-agent -s` > /dev/null
   echo "${DEIS_SSH_KEY:-${GIT_SSH_KEY:-$SSH_KEY}}" | ssh-add - 2> /dev/null
+  /usr/bin/git "$@"
+  RET=$?
+  eval `ssh-agent -k` > /dev/null
+  exit $RET
+else
+  exec /usr/bin/git "$@"
 fi
-export GIT_SSH_COMMAND="${GIT_SSH_COMMAND:-ssh -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no}"
-exec /usr/bin/git "$@"
