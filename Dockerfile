@@ -2,7 +2,7 @@ FROM alpine:3.4
 
 MAINTAINER felix.buenemann@gmail.com
 
-ARG DEIS_WORKFLOW_CLI_VERSION=v2.7.1
+ARG DEIS_WORKFLOW_CLI_VERSION=v2.13.0
 RUN apk add --no-cache bash curl git jq openssh-client \
  && curl -fsSLO https://raw.githubusercontent.com/deis/deis.io/gh-pages/deis-cli/install-v2.sh \
  && bash install-v2.sh $DEIS_WORKFLOW_CLI_VERSION \
