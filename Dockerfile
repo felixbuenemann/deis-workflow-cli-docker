@@ -3,7 +3,8 @@ FROM alpine:3.6
 MAINTAINER felix.buenemann@gmail.com
 
 ARG DEIS_WORKFLOW_CLI_VERSION=v2.18.0
-RUN apk add --no-cache bash curl git jq openssh-client \
+RUN apk add --no-cache bash curl git jq openssh-client libarchive-tools \
+ && ln -sf $(which bsdtar) $(which tar) \
  && curl -fsSLO https://raw.githubusercontent.com/deis/deis.io/gh-pages/deis-cli/install-v2.sh \
  && bash install-v2.sh $DEIS_WORKFLOW_CLI_VERSION \
  && mv deis /usr/bin/ \
